@@ -1,0 +1,21 @@
+[package]
+name = "charset_detect"
+version = "0.1.0"
+authors = []
+edition = "2021"
+
+[lib]
+name = "charset_detect"
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+chardetng = "0.1.17"
+encoding_rs = "0.8.33"
+rustler = "0.30.0"
+
+[profile.release]
+codegen-units = 1
+lto = true
+panic = 'abort'
+strip = "debuginfo"
