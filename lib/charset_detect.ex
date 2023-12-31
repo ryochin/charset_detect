@@ -21,14 +21,8 @@ defmodule CharsetDetect do
       {:ok, "Shift_JIS"}
   """
   @spec guess(binary) :: {:ok, String.t()} | {:error, String.t()}
-  def guess(body) when is_binary(body) do
-    case _guess(body) do
-      result when is_binary(result) -> {:ok, result}
-      {:error, reason} -> {:error, reason}
-    end
-  end
-
-  def guess(_), do: {:error, "invalid argument"}
+  def guess(body) when not is_binary(body), do: {:error, "invalid argument"}
+  def guess(body), do: _guess(body)
 
   @doc """
   Guess the encoding of a string (exceptional).
@@ -39,13 +33,13 @@ defmodule CharsetDetect do
       "Big5"
   """
   @spec guess!(binary) :: String.t()
-  def guess!(body) when is_binary(body) do
-    {:ok, result} = guess(body)
+  def guess!(body) do
+    {:ok, result} = _guess(body)
 
     result
   end
 
   # NIF function definition
-  @spec _guess(binary) :: String.t() | {:error, String.t()}
-  def _guess(_body), do: :erlang.nif_error(:nif_not_loaded)
+  @spec _guess(binary) :: {:ok, String.t()} | {:error, String.t()}
+  defp _guess(_body), do: :erlang.nif_error(:nif_not_loaded)
 end

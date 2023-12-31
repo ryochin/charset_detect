@@ -1,10 +1,17 @@
-use rustler::{Binary, OwnedBinary, NifResult};
+use rustler::types::tuple::make_tuple;
+use rustler::{Binary, NifResult, Env, Term, OwnedBinary, Encoder};
 
 use chardetng::EncodingDetector;
 use encoding_rs::Encoding;
 
+mod atoms {
+    rustler::atoms! {
+        ok
+    }
+}
+
 #[rustler::nif(schedule = "DirtyCpu")]
-fn _guess(body: Binary) -> NifResult<OwnedBinary> {
+fn _guess<'a>(env: Env<'a>, body: Binary<'a>) -> NifResult<Term<'a>> {
     let mut detector = EncodingDetector::new();
     detector.feed(&body, true);
     let encoding: &Encoding = detector.guess(None, true);
@@ -15,7 +22,9 @@ fn _guess(body: Binary) -> NifResult<OwnedBinary> {
 
     binary.as_mut_slice().copy_from_slice(name.as_bytes());
 
-    Ok(binary)
+    let ok = atoms::ok().encode(env);
+
+    Ok(make_tuple(env, &[ok, binary.release(env).encode(env)]))
 }
 
 fn err_str(error: String) -> rustler::Error {
