@@ -41,8 +41,9 @@ You can achieve conversion to any desired encoding using [iconv](https://hex.pm/
 
 ```elixir
 defmodule Converter do
+  @spec convert(binary, String.t()) :: {:ok, binary} | {:error, String.t()}
   def convert(text, to_encoding \\ "UTF-8") do
-    case text |> CharsetDetect.guess do
+    case text |> String.slice(0, 1024) |> CharsetDetect.guess do
       {:ok, ^to_encoding} ->
         {:ok, text}
       {:ok, encoding} ->
