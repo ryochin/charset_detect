@@ -36,11 +36,27 @@ tasks:
     cmds:
       - mix test --trace
 
+  check:
+    desc: Check codes
+    cmds:
+      - task: dialyzer
+      - task: clippy
+
+  dialyzer:
+    desc: Run dialyzer
+    cmd: mix dialyzer
+
+  clippy:
+    desc: Run clippy
+    dir: native/charset_detect
+    cmd: cargo clippy
+
   clean:
     desc: Clean up
     cmds:
       - mix clean
       - rm -f priv/native/*.so
+      - rm -rf native/charset_detect/target/*/build
 
   rustler-precompiled-download:
     desc: Download precompiled files info

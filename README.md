@@ -24,7 +24,7 @@ iex> File.read!("test/assets/big5.txt") |> CharsetDetect.guess!
 You might consider minimizing additional memory consumption.
 
 ```elixir
-"... (long text) ..." |> String.slice(0, 1024) |> CharsetDetect.guess
+iex> "... (long text) ..." |> String.slice(0, 1024) |> CharsetDetect.guess
 ```
 
 Note that an ASCII string, including an empty string, will result in a `UTF-8` encoding rather than `ASCII`.
@@ -91,7 +91,7 @@ Verify the installation by checking the `cargo` command version:
 
 ```sh
 cargo --version
-# Should output something like: cargo 1.68.1 (115f34552 2023-02-26)
+# Should output something like: cargo 1.82.0 (8f40fc59f 2024-08-21)
 ```
 
 Then, set the `RUSTLER_PRECOMPILATION_EXAMPLE_BUILD` environment variable to ensure that local sources are compiled instead of downloading a precompiled library file.
