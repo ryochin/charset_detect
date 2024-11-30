@@ -2,6 +2,7 @@ version: '3'
 
 vars:
   PROJECT_NAME: CharsetDetect
+  PROJECT_DIR_NAME: charset_detect
 
 tasks:
   compile:
@@ -48,7 +49,7 @@ tasks:
 
   clippy:
     desc: Run clippy
-    dir: native/charset_detect
+    dir: "native/{{.PROJECT_DIR_NAME}}"
     cmd: cargo clippy
 
   clean:
@@ -56,7 +57,7 @@ tasks:
     cmds:
       - mix clean
       - rm -f priv/native/*.so
-      - rm -rf native/charset_detect/target/*/build
+      - "rm -rf native/{{.PROJECT_DIR_NAME}}/target/*/build"
 
   rustler-precompiled-download:
     desc: Download precompiled files info
@@ -64,6 +65,13 @@ tasks:
       RUSTLER_PRECOMPILATION_EXAMPLE_BUILD: 1
     cmds:
       - "mix rustler_precompiled.download {{.PROJECT_NAME}} --all --print"
+
+  publish:
+    desc: Publish to hex.pm
+    prompt: Are you sure to publish?
+    cmds:
+      - "rm -rf native/{{.PROJECT_DIR_NAME}}/target"
+      - mix hex.publish
 
   default:
     cmds:

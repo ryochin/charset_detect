@@ -1,5 +1,5 @@
-🌏 CharsetDetect: Guess character encoding for Elixir
-=====================================================
+🌏 CharsetDetect: Guess character encoding
+==========================================
 
 [![Hex.pm](https://img.shields.io/hexpm/v/charset_detect.svg)](https://hex.pm/packages/charset_detect)
 [![Hexdocs.pm](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/charset_detect/)
