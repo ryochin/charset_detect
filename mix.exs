@@ -26,9 +26,10 @@ defmodule CharsetDetect.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.10", only: :dev},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:iconv, "~> 1.0", only: :dev},
-      {:rustler_precompiled, "~> 0.7"},
-      {:rustler, "~> 0.30.0", optional: true}
+      {:rustler_precompiled, "~> 0.8"},
+      {:rustler, "~> 0.30", optional: true}
     ]
   end
 

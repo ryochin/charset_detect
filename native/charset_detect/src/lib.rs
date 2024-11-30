@@ -1,5 +1,5 @@
 use rustler::types::tuple::make_tuple;
-use rustler::{Binary, NifResult, Env, Term, OwnedBinary, Encoder};
+use rustler::{Binary, Encoder, Env, NifResult, OwnedBinary, Term};
 
 use chardetng::EncodingDetector;
 use encoding_rs::Encoding;
@@ -31,4 +31,4 @@ fn err_str(error: String) -> rustler::Error {
     rustler::Error::Term(Box::new(error))
 }
 
-rustler::init!("Elixir.CharsetDetect", [_guess]);
+rustler::init!("Elixir.CharsetDetect");
