@@ -27,7 +27,8 @@ You might consider minimizing additional memory consumption.
 iex> "... (long text) ..." |> String.slice(0, 1024) |> CharsetDetect.guess
 ```
 
-Note that an ASCII string, including an empty string, will result in a `UTF-8` encoding rather than `ASCII`.
+> [!NOTE]
+> An ASCII string, including an empty string, will result in a `UTF-8` encoding rather than `ASCII`.
 
 ```elixir
 iex> "hello world" |> CharsetDetect.guess
@@ -42,7 +43,7 @@ You can achieve conversion to any desired encoding using [iconv](https://hex.pm/
 ```elixir
 defmodule Converter do
   @spec convert(binary, String.t()) :: {:ok, binary} | {:error, String.t()}
-  def convert(text, to_encoding \\ "UTF-8") do
+  def convert(text, to_encoding \\ "UTF-8") when is_binary(text) do
     case text |> String.slice(0, 1024) |> CharsetDetect.guess do
       {:ok, ^to_encoding} ->
         {:ok, text}
@@ -56,11 +57,13 @@ defmodule Converter do
         {:error, reason}
     end
   end
+
+  def convert(_, _), do: {:error, "not a string"}
 end
 ```
 ```elixir
 iex> File.read!("test/assets/big5.txt") |> Converter.convert
-{:ok, "大五碼是繁体中文（正體中文）社群最常用的電腦漢字字符集標準。\n"}
+{:ok, "大五碼是繁体中文（正體中文）社群最常用的電腦漢字字符集標準。\n"}    # UTF-8
 ```
 
 Installation
@@ -83,7 +86,8 @@ Development
 
 ### Prerequisites
 
-**Note:** This library requires the [Rust](https://www.rust-lang.org/) Toolchain for compilation.
+> [!NOTE]
+> This library requires the [Rust](https://www.rust-lang.org/) Toolchain for compilation.
 
 Follow the instructions at [www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install) to install Rust.
 
